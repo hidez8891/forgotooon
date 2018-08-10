@@ -7,24 +7,14 @@ import Memo from '../components/Memo';
 import {
     View,
     ScrollView,
-    StyleSheet,
-    TextInput
+    StyleSheet
 } from 'react-native';
 
-import {
-    ActionButton
-} from 'react-native-material-ui';
-
 type MemosViewProps = MemoState & {
-    onAddMemo: (text: string) => void
     onDeleteMemo: (id: string) => void
 }
 
-type MemosViewState = {
-    text: string
-}
-
-class MemosView extends Component<MemosViewProps, MemosViewState> {
+class MemosView extends Component<MemosViewProps> {
     constructor(props: MemosViewProps) {
         super(props);
 
@@ -51,27 +41,8 @@ class MemosView extends Component<MemosViewProps, MemosViewState> {
                     style={styles.scrollContainer}>
                     {memoViews}
                 </ScrollView>
-
-                <TextInput
-                    style={styles.textInput}
-                    placeholder=">"
-                    onChangeText={(text) => this.setState({ text })}
-                    value={this.state.text}
-                    placeholderTextColor="white"
-                    underlineColorAndroid="transparent" />
-
-                <ActionButton
-                    icon="add"
-                    onPress={this.onAddMemo.bind(this)} />
             </View>
         );
-    }
-
-    // add memo
-    onAddMemo() {
-        const { text } = this.state;
-        this.props.onAddMemo(text);
-        this.setState({ text: '' });
     }
 
     // delete memo
@@ -92,7 +63,6 @@ const mapStateToProps = (state: MemoState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        onAddMemo: (text: string) => dispatch(addMemo(text)),
         onDeleteMemo: (id: string) => dispatch(deleteMemo(id)),
     };
 };
@@ -112,13 +82,5 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         flex: 1,
-    },
-    textInput: {
-        alignSelf: "stretch",
-        color: "#fff",
-        padding: 20,
-        backgroundColor: "#252525",
-        borderTopWidth: 2,
-        borderTopColor: "#ededed",
-    },
+    }
 });
