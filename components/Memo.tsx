@@ -2,11 +2,21 @@ import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 
 import {
-    View,
+    COLOR
+} from 'react-native-material-ui';
+
+import {
     Text,
     TouchableOpacity,
     GestureResponderEvent
 } from 'react-native';
+
+import {
+    ListItem,
+    Icon,
+    ThemeProps,
+    withTheme
+} from 'react-native-material-ui';
 
 type MemoViewProps = {
     id: string
@@ -14,57 +24,47 @@ type MemoViewProps = {
     deleter: (event: GestureResponderEvent) => void
 };
 
-export default class MemoView extends Component<MemoViewProps> {
+class MemoView extends Component<MemoViewProps> {
     render() {
+        const { primaryLightColor } = (this.props as any).theme.palette;
+
         return (
-            <View
-                key={this.props.id}
-                style={styles.memo}>
-
-                <Text style={styles.text}>
-                    {this.props.text}
-                </Text>
-
-                <TouchableOpacity
-                    onPress={this.props.deleter}
-                    style={styles.memoDelete}>
-
-                    <Text style={styles.memoDeleteText}>
-                        D
+            <ListItem
+                divider={true}
+                centerElement={
+                    <Text>
+                        {this.props.text}
                     </Text>
-                </TouchableOpacity>
-            </View>
+                }
+                rightElement={
+                    <TouchableOpacity
+                        style={[styles.memoDelete, { backgroundColor: primaryLightColor }]}
+                        onPress={this.props.deleter}>
+
+                        <Icon name="delete" color="white" />
+                    </TouchableOpacity>
+                }
+                style={{
+                    rightElementContainer: { paddingRight: 0 },
+                }}
+            />
         );
     }
 }
+
+export default withTheme(MemoView);
 
 //--------------------------------
 // Styles
 //--------------------------------
 const styles = StyleSheet.create({
-    memo: {
-        position: "relative",
-        padding: 20,
-        paddingRight: 100,
-        borderBottomWidth: 2,
-        borderBottomColor: "#ededed",
-    },
-    text: {
-        paddingLeft: 20,
-        borderLeftWidth: 10,
-        borderLeftColor: "#e91e63",
-    },
     memoDelete: {
-        position: "absolute",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#2980b9",
-        padding: 10,
-        top: 10,
-        bottom: 10,
-        right: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 20
     },
-    memoDeleteText: {
+    memoDeleteIcon: {
         color: "white"
     }
 });
