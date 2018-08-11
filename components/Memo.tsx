@@ -1,20 +1,26 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { COLOR, Icon, withTheme } from "react-native-material-ui";
+import { Icon, withTheme } from "react-native-material-ui";
 import Swipeout from "react-native-swipeout";
+import { ThemeTypes } from "../theme";
 
 type MemoViewProps = {
   id: string;
   text: string;
   deleter: () => void;
   updater: () => void;
+  theme: ThemeTypes;
 };
 
 class MemoView extends Component<MemoViewProps> {
   render() {
+    const {
+      palette: { primaryLightColor, accentLightColor }
+    } = this.props.theme;
+
     const leftButtons = [
       {
-        backgroundColor: COLOR.red300,
+        backgroundColor: primaryLightColor,
         text: <Icon name="create" />,
         onPress: this.props.updater
       }
@@ -22,7 +28,7 @@ class MemoView extends Component<MemoViewProps> {
 
     const rightButtons = [
       {
-        backgroundColor: COLOR.blue300,
+        backgroundColor: accentLightColor,
         text: <Icon name="delete" />,
         onPress: this.props.deleter
       }

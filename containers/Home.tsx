@@ -12,11 +12,13 @@ import { NavigationScreenProps } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { addMemo, selectMemo } from "../modules/memos";
+import { ThemeTypes } from "../theme";
 import Memos from "./Memos";
 
 type Props = NavigationScreenProps & {
   onAddMemo: (text: string) => void;
   onSelectMemo: (id: string) => void;
+  theme: ThemeTypes;
 };
 
 type States = {
@@ -33,8 +35,9 @@ class HomeView extends Component<Props, States> {
   }
 
   render() {
-    const { primaryLightColor, accentLightColor } = (this
-      .props as any).theme.palette;
+    const {
+      palette: { primaryLightColor, accentLightColor }
+    } = this.props.theme;
 
     return (
       <KeyboardAvoidingView style={styles.body} behavior="padding">
