@@ -4,7 +4,7 @@ import { getTheme, ThemeContext } from "react-native-material-ui";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { memoReducer } from "./modules/memos";
-import Router from "./Router";
+import Router from "./screens/Router";
 import { theme } from "./theme";
 
 const store = createStore(memoReducer);

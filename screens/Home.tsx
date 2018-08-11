@@ -11,9 +11,10 @@ import { Toolbar, withTheme } from "react-native-material-ui";
 import { NavigationScreenProps } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import Memos from "../containers/Memos";
 import { addMemo, selectMemo } from "../modules/memos";
 import { ThemeTypes } from "../theme";
-import Memos from "./Memos";
+import { RouteScreen } from "./Router";
 
 //--------------------------------
 // redux map functions
@@ -97,7 +98,7 @@ class HomeScreen extends Component<Props, States> {
   // update memo text
   onUpdateMemo(id: string) {
     this.props.onSelectMemo(id);
-    this.props.navigation.navigate("Edit");
+    this.props.navigation.navigate(RouteScreen.Edit);
   }
 }
 
