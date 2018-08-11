@@ -23,7 +23,9 @@ const uiTheme = {
   palette: {
     primaryColor: COLOR.green500,
     primaryLightColor: COLOR.green300,
+    primaryDarkColor: COLOR.green800,
     accentColor: COLOR.red500,
+    accentLightColor: COLOR.red300,
   },
 };
 
