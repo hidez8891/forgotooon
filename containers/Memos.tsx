@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { MemoState, deleteMemo, addMemo } from '../modules/memos';
+import { MemoState, deleteMemo } from '../modules/memos';
 import Memo from '../components/Memo';
 
 import {
@@ -10,8 +10,9 @@ import {
     StyleSheet
 } from 'react-native';
 
-type MemosViewProps = MemoState & {
+type MemosViewProps = Pick<MemoState, "memos"> & {
     onDeleteMemo: (id: string) => void
+    onUpdateMemo: (id: string) => void
 }
 
 class MemosView extends Component<MemosViewProps> {
@@ -31,6 +32,7 @@ class MemosView extends Component<MemosViewProps> {
                     id={memo.id}
                     text={memo.text}
                     deleter={() => this.onDeleteMemo(memo.id)}
+                    updater={() => this.onUpdateMemo(memo.id)}
                 />
             );
         });
@@ -48,6 +50,11 @@ class MemosView extends Component<MemosViewProps> {
     // delete memo
     onDeleteMemo(id: string) {
         this.props.onDeleteMemo(id);
+    }
+
+    // update memo
+    onUpdateMemo(id: string) {
+        this.props.onUpdateMemo(id);
     }
 }
 

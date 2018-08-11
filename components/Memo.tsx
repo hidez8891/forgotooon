@@ -24,6 +24,7 @@ type MemoViewProps = {
     id: string
     text: string
     deleter: () => void
+    updater: () => void
 };
 
 class MemoView extends Component<MemoViewProps> {
@@ -33,7 +34,8 @@ class MemoView extends Component<MemoViewProps> {
         const leftButtons = [
             {
                 backgroundColor: COLOR.red300,
-                text: (<Icon name="create" />)
+                text: (<Icon name="create" />),
+                onPress: this.props.updater
             }
         ];
 

@@ -3,7 +3,7 @@ import Memos from './Memos';
 
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { addMemo } from '../modules/memos';
+import { addMemo, selectMemo } from '../modules/memos';
 
 import {
     Toolbar,
@@ -23,6 +23,7 @@ import { NavigationScreenProps } from 'react-navigation';
 
 type Props = NavigationScreenProps & {
     onAddMemo: (text: string) => void
+    onSelectMemo: (id: string) => void
 }
 
 type States = {
@@ -45,7 +46,7 @@ class HomeView extends Component<Props, States> {
             <KeyboardAvoidingView style={styles.body} behavior='padding'>
                 <Toolbar key="top" centerElement="Memo" />
 
-                <Memos />
+                <Memos onUpdateMemo={(id) => this.onUpdateMemo(id)} />
 
                 <View style={styles.inputArea}>
                     <TouchableOpacity
@@ -73,6 +74,12 @@ class HomeView extends Component<Props, States> {
         this.props.onAddMemo(text);
         this.setState({ text: '' });
     }
+
+    // update memo
+    onUpdateMemo(id: string) {
+        this.props.onSelectMemo(id);
+        this.props.navigation.navigate("Edit");
+    }
 }
 
 //--------------------------------
@@ -81,6 +88,7 @@ class HomeView extends Component<Props, States> {
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         onAddMemo: (text: string) => dispatch(addMemo(text)),
+        onSelectMemo: (id: string) => dispatch(selectMemo(id)),
     };
 };
 
@@ -104,7 +112,7 @@ const styles = StyleSheet.create({
     textInput: {
         flexGrow: 1,
         alignSelf: "stretch",
-        color: "#fff",
+        color: "#333",
         height: 48,
         paddingHorizontal: 24,
         backgroundColor: "#ccc",

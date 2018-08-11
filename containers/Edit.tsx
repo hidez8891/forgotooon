@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { addMemo } from '../modules/memos';
+import { MemoState, updateMemo } from '../modules/memos';
 
 import {
     Toolbar,
@@ -19,7 +19,9 @@ import {
 import { NavigationScreenProps } from 'react-navigation';
 
 type EditViewProps = NavigationScreenProps & {
-    onAddMemo: (text: string) => void
+    id: string
+    text: string
+    updater: (id: string, text: string) => void
 }
 
 interface EditViewStates {
@@ -31,7 +33,7 @@ class EditView extends Component<EditViewProps, EditViewStates> {
         super(props);
 
         this.state = {
-            text: ""
+            text: props.text
         };
     }
 
@@ -41,7 +43,7 @@ class EditView extends Component<EditViewProps, EditViewStates> {
                 <Toolbar
                     leftElement="arrow-back"
                     onLeftElementPress={() => this.props.navigation.goBack()}
-                    centerElement="Add Memo" />
+                    centerElement="Update Memo" />
 
                 <View style={styles.textArea}>
                     <Text style={styles.textLabel}>
@@ -58,19 +60,19 @@ class EditView extends Component<EditViewProps, EditViewStates> {
                     <Button
                         accent={true}
                         raised={true}
-                        text="Add"
-                        icon="add"
-                        onPress={this.onAddMemo.bind(this)} />
+                        text="Update"
+                        icon="create"
+                        onPress={this.onUpdateMemo.bind(this)} />
                 </View>
             </View>
         );
     }
 
     // add memo
-    onAddMemo() {
+    onUpdateMemo() {
+        const { id } = this.props;
         const { text } = this.state;
-        this.props.onAddMemo(text);
-        this.setState({ text: '' });
+        this.props.updater(id, text);
         this.props.navigation.goBack();
     }
 }
@@ -79,16 +81,20 @@ class EditView extends Component<EditViewProps, EditViewStates> {
 // redux map functions
 //--------------------------------
 
+const mapStateToProps = (state: MemoState) => {
+    return state.memos.find((v) => v.id === state.select)
+};
+
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        onAddMemo: (text: string) => dispatch(addMemo(text)),
+        updater: (id: string, text: string) => dispatch(updateMemo(id, text)),
     };
 };
 
 //--------------------------------
 // export
 //--------------------------------
-export default connect(null, mapDispatchToProps)(EditView);
+export default connect(mapStateToProps, mapDispatchToProps)(EditView);
 
 
 //--------------------------------
