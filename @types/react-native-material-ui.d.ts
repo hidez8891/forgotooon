@@ -5,7 +5,7 @@
 // TypeScript Version: 2.8
 
 declare module 'react-native-material-ui' {
-    import { Component } from 'react';
+    import { Component, ComponentType } from 'react';
     import { ViewStyle, TextStyle, Image } from 'react-native';
 
     export interface ActionButtonProps {
@@ -774,5 +774,6 @@ declare module 'react-native-material-ui' {
 
     export function getTheme(theme: {}): {};
 
-    export function withTheme<T>(component: T): T;
+    export function withTheme<P>(component: ComponentType<P>):
+      ComponentType<Pick<P, Exclude<keyof P, keyof ThemeProps>>>;
 }

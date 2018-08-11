@@ -55,7 +55,7 @@ export const selectMemo = (id: string): SelectMemoAction => ({
   payload: { id }
 });
 
-// select memo action
+// update memo action
 interface UpdateMemoAction extends Action {
   type: ActionTypes.UPDATE_MEMO;
   payload: {
@@ -79,8 +79,7 @@ export type MemoActions =
 // reducer
 //--------------------------------
 
-// memo states
-
+// memo state
 export interface MemoState {
   select: string;
   memos: {
@@ -88,6 +87,8 @@ export interface MemoState {
     text: string;
   }[];
 }
+
+// initial memo state
 export const INITIAL_STATE: MemoState = {
   select: "",
   memos: []

@@ -5,20 +5,37 @@ import { Dispatch } from "redux";
 import Memo from "../components/Memo";
 import { deleteMemo, MemoState } from "../modules/memos";
 
-type MemosViewProps = Pick<MemoState, "memos"> & {
-  onDeleteMemo: (id: string) => void;
-  onUpdateMemo: (id: string) => void;
+//--------------------------------
+// redux map functions
+//--------------------------------
+const mapStateToProps = (state: MemoState) => {
+  return {
+    memos: state.memos
+  };
 };
 
-class MemosView extends Component<MemosViewProps> {
-  constructor(props: MemosViewProps) {
-    super(props);
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    onDeleteMemo: (id: string) => dispatch(deleteMemo(id))
+  };
+};
 
-    this.state = {
-      text: ""
-    };
+//--------------------------------
+// view component definition
+//--------------------------------
+type Props = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> & {
+    onUpdateMemo: (id: string) => void;
+  };
+
+// Memo List View Component
+class MemosView extends Component<Props> {
+  // constructor
+  constructor(props: Props) {
+    super(props);
   }
 
+  // rendering
   render() {
     const memoViews = this.props.memos.map(memo => {
       return (
@@ -49,22 +66,6 @@ class MemosView extends Component<MemosViewProps> {
     this.props.onUpdateMemo(id);
   }
 }
-
-//--------------------------------
-// redux map functions
-//--------------------------------
-
-const mapStateToProps = (state: MemoState) => {
-  return {
-    memos: state.memos
-  };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    onDeleteMemo: (id: string) => dispatch(deleteMemo(id))
-  };
-};
 
 //--------------------------------
 // export

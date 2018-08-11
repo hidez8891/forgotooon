@@ -4,7 +4,8 @@ import { Icon, withTheme } from "react-native-material-ui";
 import Swipeout from "react-native-swipeout";
 import { ThemeTypes } from "../theme";
 
-type MemoViewProps = {
+// component props
+type Props = {
   id: string;
   text: string;
   deleter: () => void;
@@ -12,12 +13,16 @@ type MemoViewProps = {
   theme: ThemeTypes;
 };
 
-class MemoView extends Component<MemoViewProps> {
+// Memo View Component
+class MemoView extends Component<Props> {
+  // rendering
   render() {
+    // get global pallette
     const {
       palette: { primaryLightColor, accentLightColor }
     } = this.props.theme;
 
+    // left buttons settings
     const leftButtons = [
       {
         backgroundColor: primaryLightColor,
@@ -26,6 +31,7 @@ class MemoView extends Component<MemoViewProps> {
       }
     ];
 
+    // right buttons settings
     const rightButtons = [
       {
         backgroundColor: accentLightColor,
@@ -34,6 +40,7 @@ class MemoView extends Component<MemoViewProps> {
       }
     ];
 
+    // render swipable view
     return (
       <Swipeout autoClose={true} left={leftButtons} right={rightButtons}>
         <View style={styles.container}>
@@ -44,6 +51,9 @@ class MemoView extends Component<MemoViewProps> {
   }
 }
 
+//--------------------------------
+// export
+//--------------------------------
 export default withTheme(MemoView);
 
 //--------------------------------
