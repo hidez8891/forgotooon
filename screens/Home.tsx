@@ -15,69 +15,6 @@ import { addMemo, selectMemo } from "../modules/memos";
 import { ThemeTypes } from "../theme";
 import Memos from "./Memos";
 
-type Props = NavigationScreenProps & {
-  onAddMemo: (text: string) => void;
-  onSelectMemo: (id: string) => void;
-  theme: ThemeTypes;
-};
-
-type States = {
-  text: string;
-};
-
-class HomeView extends Component<Props, States> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      text: ""
-    };
-  }
-
-  render() {
-    const {
-      palette: { primaryLightColor, accentLightColor }
-    } = this.props.theme;
-
-    return (
-      <KeyboardAvoidingView style={styles.body} behavior="padding">
-        <Toolbar key="top" centerElement="Memo" />
-
-        <Memos onUpdateMemo={id => this.onUpdateMemo(id)} />
-
-        <View style={styles.inputArea}>
-          <TouchableOpacity
-            style={[styles.inputButton, { backgroundColor: accentLightColor }]}
-            onPress={this.onAddMemo.bind(this)}
-          >
-            <Text style={styles.inputButtonText}>+</Text>
-          </TouchableOpacity>
-
-          <TextInput
-            style={[styles.textInput, { backgroundColor: primaryLightColor }]}
-            onChangeText={text => this.setState({ text })}
-            value={this.state.text}
-            underlineColorAndroid="transparent"
-          />
-        </View>
-      </KeyboardAvoidingView>
-    );
-  }
-
-  // add memo
-  onAddMemo() {
-    const { text } = this.state;
-    this.props.onAddMemo(text);
-    this.setState({ text: "" });
-  }
-
-  // update memo
-  onUpdateMemo(id: string) {
-    this.props.onSelectMemo(id);
-    this.props.navigation.navigate("Edit");
-  }
-}
-
 //--------------------------------
 // redux map functions
 //--------------------------------
@@ -89,12 +26,88 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 };
 
 //--------------------------------
+// Screen definition
+//--------------------------------
+
+// Screen Props
+type Props = NavigationScreenProps &
+  ReturnType<typeof mapDispatchToProps> & {
+    theme: ThemeTypes;
+  };
+
+// Screen States
+type States = {
+  text: string;
+};
+
+// Home Screen Component
+class HomeScreen extends Component<Props, States> {
+  // constructor
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      text: ""
+    };
+  }
+
+  // rendering
+  render() {
+    const {
+      palette: { primaryLightColor, accentLightColor }
+    } = this.props.theme;
+
+    return (
+      <KeyboardAvoidingView style={styles.body} behavior="padding">
+        {/* header */}
+        <Toolbar key="top" centerElement="Memo" />
+
+        {/* memo list */}
+        <Memos onUpdateMemo={id => this.onUpdateMemo(id)} />
+
+        {/* footer: text input */}
+        <View style={styles.inputArea}>
+          {/* right: input button*/}
+          <TouchableOpacity
+            style={[styles.inputButton, { backgroundColor: accentLightColor }]}
+            onPress={this.onAddMemo.bind(this)}
+          >
+            <Text style={styles.inputButtonText}>+</Text>
+          </TouchableOpacity>
+
+          {/* left: input area*/}
+          <TextInput
+            style={[styles.textInput, { backgroundColor: primaryLightColor }]}
+            onChangeText={text => this.setState({ text })}
+            value={this.state.text}
+            underlineColorAndroid="transparent"
+          />
+        </View>
+      </KeyboardAvoidingView>
+    );
+  }
+
+  // add memo text
+  onAddMemo() {
+    const { text } = this.state;
+    this.props.onAddMemo(text);
+    this.setState({ text: "" });
+  }
+
+  // update memo text
+  onUpdateMemo(id: string) {
+    this.props.onSelectMemo(id);
+    this.props.navigation.navigate("Edit");
+  }
+}
+
+//--------------------------------
 // export
 //--------------------------------
 export default connect(
   null,
   mapDispatchToProps
-)(withTheme(HomeView));
+)(withTheme(HomeScreen));
 
 //--------------------------------
 // Styles

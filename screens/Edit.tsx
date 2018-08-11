@@ -6,18 +6,37 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { MemoState, updateMemo } from "../modules/memos";
 
-type EditViewProps = NavigationScreenProps & {
-  id: string;
-  text: string;
-  updater: (id: string, text: string) => void;
+//--------------------------------
+// redux map functions
+//--------------------------------
+const mapStateToProps = (state: MemoState) => {
+  return state.memos.find(v => v.id === state.select);
 };
 
-interface EditViewStates {
-  text: string;
-}
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    updater: (id: string, text: string) => dispatch(updateMemo(id, text))
+  };
+};
 
-class EditView extends Component<EditViewProps, EditViewStates> {
-  constructor(props: EditViewProps) {
+//--------------------------------
+// Screen definition
+//--------------------------------
+
+// Screen Props
+type Props = NavigationScreenProps &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps>;
+
+// Screen States
+type States = {
+  text: string;
+};
+
+// Edit Screen Component
+class EditScreen extends Component<Props, States> {
+  // constructor
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -25,15 +44,18 @@ class EditView extends Component<EditViewProps, EditViewStates> {
     };
   }
 
+  // rendering
   render() {
     return (
       <View style={styles.body}>
+        {/* header */}
         <Toolbar
           leftElement="arrow-back"
           onLeftElementPress={() => this.props.navigation.goBack()}
           centerElement="Update Memo"
         />
 
+        {/* input area */}
         <View style={styles.textArea}>
           <Text style={styles.textLabel}>memo</Text>
           <TextInput
@@ -44,14 +66,8 @@ class EditView extends Component<EditViewProps, EditViewStates> {
           />
         </View>
 
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            flexDirection: "row",
-            alignItems: "flex-start"
-          }}
-        >
+        {/* submit button */}
+        <View style={styles.buttonArea}>
           <Button
             accent={true}
             raised={true}
@@ -64,7 +80,7 @@ class EditView extends Component<EditViewProps, EditViewStates> {
     );
   }
 
-  // add memo
+  // update memo text
   onUpdateMemo() {
     const { id } = this.props;
     const { text } = this.state;
@@ -74,26 +90,12 @@ class EditView extends Component<EditViewProps, EditViewStates> {
 }
 
 //--------------------------------
-// redux map functions
-//--------------------------------
-
-const mapStateToProps = (state: MemoState) => {
-  return state.memos.find(v => v.id === state.select);
-};
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    updater: (id: string, text: string) => dispatch(updateMemo(id, text))
-  };
-};
-
-//--------------------------------
 // export
 //--------------------------------
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EditView);
+)(EditScreen);
 
 //--------------------------------
 // Styles
@@ -116,5 +118,11 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     borderBottomWidth: 2,
     borderBottomColor: "#333"
+  },
+  buttonArea: {
+    flex: 1,
+    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "flex-start"
   }
 });
