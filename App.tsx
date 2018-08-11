@@ -1,21 +1,10 @@
-import * as React from 'react';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import { NativeModules } from 'react-native';
-
-import { memoReducer } from './modules/memos';
-import Router from './Router';
-
-import {
-  COLOR,
-  ThemeContext,
-  getTheme
-} from 'react-native-material-ui';
-
-import {
-  StyleSheet,
-  View
-} from 'react-native';
+import * as React from "react";
+import { NativeModules } from "react-native";
+import { COLOR, getTheme, ThemeContext } from "react-native-material-ui";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import { memoReducer } from "./modules/memos";
+import Router from "./Router";
 
 const store = createStore(memoReducer);
 
@@ -25,8 +14,8 @@ const uiTheme = {
     primaryLightColor: COLOR.green300,
     primaryDarkColor: COLOR.green800,
     accentColor: COLOR.red500,
-    accentLightColor: COLOR.red300,
-  },
+    accentLightColor: COLOR.red300
+  }
 };
 
 const UIManager = NativeModules.UIManager;
