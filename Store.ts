@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import uuid from 'uuid/v1';
 
 export interface Todo {
     description: string
     done: boolean
+    id: string
 }
 
 interface State {
@@ -10,46 +12,42 @@ interface State {
 }
 
 interface Getters {
-    todos: Array<Todo & { id: number }>
+    todos: Array<Todo>
 }
 
 interface Actions {
     add(description: string): void
-    update(id: number, done: boolean): void
-    remove(id: number): void
+    update(id: string, done: boolean): void
+    remove(id: string): void
 }
 
 export type Store = Getters & Actions;
 
 export const useTodo = (): Getters & Actions => {
-    const [state, setState] = useState<State>({
-        todos: [
-            { description: "text1", done: false },
-            { description: "text2", done: false },
-        ]
-    });
+    const [state, setState] = useState<State>({ todos: [] });
     const { todos } = state;
 
     function add(description: string) {
+        const id = uuid();
         setState({
-            todos: [...todos, { description, done: false }]
+            todos: [...todos, { id, description, done: false }]
         });
     }
 
-    function update(id: number, done: boolean) {
+    function update(id: string, done: boolean) {
         setState({
-            todos: todos.map((v, i) => (i !== id) ? v : { ...v, done })
+            todos: todos.map((v) => (v.id !== id) ? v : { ...v, done })
         });
     }
 
-    function remove(id: number) {
+    function remove(id: string) {
         setState({
-            todos: todos.filter((v, i) => i !== id)
+            todos: todos.filter((v) => v.id !== id)
         });
     }
 
     return {
-        todos: todos.map((v, id) => ({ ...v, id })),
+        todos,
         add,
         update,
         remove,
