@@ -15,3 +15,6 @@ web-report/
 
 # vscode
 .vscode/.react/*
+
+# log file
+*.log
