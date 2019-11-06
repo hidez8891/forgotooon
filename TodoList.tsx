@@ -15,6 +15,8 @@ const TodoList: React.FC = () => {
                 <ListItem icon>
                     <Left>
                         <Icon
+                            data-test="item.check"
+                            data-test-v={item.done}
                             type="MaterialIcons"
                             style={styles.checkbox}
                             name={item.done ? "check-box" : "check-box-outline-blank"}
@@ -22,10 +24,13 @@ const TodoList: React.FC = () => {
                         />
                     </Left>
                     <Body>
-                        <Text>{item.description}</Text>
+                        <Text data-test="item.description">
+                            {item.description}
+                        </Text>
                     </Body>
                     <Right>
                         <Icon
+                            data-test="item.remove"
                             type="FontAwesome"
                             style={styles.icon}
                             name="trash-o"
