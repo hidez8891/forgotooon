@@ -98,8 +98,9 @@ describe("Todo Store", () => {
             });
         }
 
-        let items = component.root.findAllByType(WrapItem)
-            .filter(view => view.findAllByProps({ "data-flag": "done" }).length !== 0);
+        let items = component.root
+            .findAllByProps({ "data-flag": "done" })
+            .filter((v) => v.type.toString() === 'View');
         expect(items.length).toBe(0);
 
         renderer.act(() => {
@@ -107,8 +108,9 @@ describe("Todo Store", () => {
             button.props.onPress();
         });
 
-        items = component.root.findAllByType(WrapItem)
-            .filter(view => view.findAllByProps({ "data-flag": "done" }).length !== 0);
+        items = component.root
+            .findAllByProps({ "data-flag": "done" })
+            .filter((v) => v.type.toString() === 'View');
         expect(items.length).toBe(1);
     });
 });
