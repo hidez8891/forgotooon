@@ -1,3 +1,4 @@
+import React from 'react';
 import { View } from "react-native";
 import { useSafeArea } from 'react-native-safe-area-context';
 import { createAppContainer } from 'react-navigation';
