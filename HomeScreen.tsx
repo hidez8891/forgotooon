@@ -1,24 +1,52 @@
 import React from "react";
-import { View } from "react-native";
-import { useSafeArea } from 'react-native-safe-area-context';
+import { StyleSheet, View, Text } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import TodoList from "./TodoList";
-import OverlayButtonView from "./OverlayButtonView";
-import { Route, RouterProps } from "./ScreenRouter.defs";
 
-type Props = RouterProps;
+interface Props {
+    onCallEditor(): void
+}
 
 const HomeScreen: React.FC<Props> = (props) => {
-    const insets = useSafeArea();
-    const { navigation } = props;
+    const { onCallEditor } = props;
 
     return (
-        <>
-            <View style={{ paddingTop: insets.top }} />
-            <OverlayButtonView onPress={() => navigation.navigate(Route.Edit)} >
-                <TodoList />
-            </OverlayButtonView>
-        </>
+        <View style={styles.container}>
+            <TodoList />
+
+            <View style={styles.view}>
+                <TouchableOpacity
+                    data-test="btn.editor"
+                    style={styles.button}
+                    onPress={() => onCallEditor()}
+                >
+                    <Text style={styles.text}>+</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
     );
 }
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    view: {
+        position: "absolute",
+        right: 12,
+        bottom: 12,
+    },
+    button: {
+        height: 48,
+        width: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#ccc",
+        borderRadius: 24,
+    },
+    text: {
+        fontSize: 24,
+    },
+});

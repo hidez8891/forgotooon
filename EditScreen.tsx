@@ -1,33 +1,32 @@
 import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Text, Button } from "react-native";
-import { useSafeArea } from 'react-native-safe-area-context';
-import { RouterProps } from "./ScreenRouter.defs";
 import { useContext } from './Context';
 
-type Props = RouterProps;
+interface Props {
+    onFinished(): void
+}
 
 interface State {
     text: string
 }
 
 const EditScreen: React.FC<Props> = (props) => {
-    const { navigation } = props;
-    const insets = useSafeArea();
+    const { onFinished } = props;
     const [state, setState] = useState<State>({ text: "" });
     const { todo: { add } } = useContext();
 
-    function editFinish(text: string) {
+    function onSubmit(text: string) {
         add(text);
-        navigation.goBack();
+        onFinished();
     }
 
     return (
         <>
-            <View style={{ paddingTop: insets.top }} />
             <View style={styles.body}>
                 <View style={styles.inputArea}>
                     <Text style={styles.label}>ToDo</Text>
                     <TextInput
+                        data-test="input.text"
                         style={styles.input}
                         onChangeText={(text) => setState({ ...state, text })}
                         value={state.text}
@@ -37,8 +36,9 @@ const EditScreen: React.FC<Props> = (props) => {
 
                 <View style={styles.buttonArea}>
                     <Button
+                        data-test="input.submit"
                         title="Add"
-                        onPress={() => editFinish(state.text)}
+                        onPress={() => onSubmit(state.text)}
                     />
                 </View>
             </View>
