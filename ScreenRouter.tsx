@@ -1,5 +1,10 @@
 import React from 'react';
-import { Container, Content, Header, Left, Right, Body, Title } from "native-base";
+import { Animated, Easing } from 'react-native';
+import {
+    Container, Content, Header,
+    Left, Right, Body, Title,
+    Button, Text
+} from "native-base";
 import { useSafeArea } from 'react-native-safe-area-context';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator, NavigationStackProp } from 'react-navigation-stack';
@@ -49,7 +54,14 @@ const EditScreenView: React.FC<RouterProps> = (props) => {
                 <Body>
                     <Title>Add New Task</Title>
                 </Body>
-                <Right />
+                <Right>
+                    <Button
+                        transparent
+                        onPress={() => navigation.goBack()}
+                    >
+                        <Text>Cancel</Text>
+                    </Button>
+                </Right>
             </Header>
             <Content padder contentContainerStyle={{ flexGrow: 1 }}>
                 <EditScreen
@@ -68,5 +80,47 @@ export default createAppContainer(createStackNavigator(
     {
         initialRouteName: Route.Home,
         headerMode: "none",
+        transitionConfig: () => ({
+            transitionSpec: {
+                duration: 300,
+                easing: Easing.out(Easing.poly(4)),
+                timing: Animated.timing,
+            },
+            screenInterpolator: sceneProps => {
+                const { layout, position, scene } = sceneProps;
+                const { index } = scene;
+                const width = layout.initWidth;
+
+                return {
+                    opacity: position.interpolate({
+                        inputRange: [index - 1, index, index + 1],
+                        outputRange: [1, 1, 1],
+                    }),
+                    transform: [{
+                        translateX: position.interpolate({
+                            inputRange: [index - 1, index, index + 1],
+                            outputRange: [width, 0, -width],
+                        }),
+                    }]
+                };
+            },
+            headerTitleInterpolator: sceneProps => {
+                const { position, scene } = sceneProps;
+                const { index } = scene;
+
+                return {
+                    opacity: position.interpolate({
+                        inputRange: [index - 1, index, index + 1],
+                        outputRange: [0, 1, 0],
+                    }),
+                    transform: [{
+                        translateX: position.interpolate({
+                            inputRange: [index - 1, index, index + 1],
+                            outputRange: [50, 0, -50],
+                        }),
+                    }]
+                };
+            },
+        })
     }
 ));
