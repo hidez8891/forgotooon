@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import { Content, Form, Item, Input, Button, Text } from "native-base";
+import { Form, Item, Input, Button, Text } from "native-base";
 import { useContext } from './Context';
 
 interface Props {
