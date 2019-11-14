@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     },
     view: {
         position: "absolute",
-        right: 12,
-        bottom: 12,
+        right: 24,
+        bottom: 24,
     },
     button: {
         height: 48,
