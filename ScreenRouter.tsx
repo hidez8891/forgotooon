@@ -1,14 +1,17 @@
-import React from 'react';
-import { Animated, Easing } from 'react-native';
+import React, { useState } from 'react';
 import {
-    Container, Content, Header,
+    Animated, Easing, Dimensions
+} from 'react-native';
+import {
+    Container, Header,
     Left, Right, Body, Title,
-    Button, Text
+    Button, Text, Icon
 } from "native-base";
 import { useSafeArea } from 'react-native-safe-area-context';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator, NavigationStackProp } from 'react-navigation-stack';
 
+import SortMenu from "./SortMenu";
 import HomeScreen from "./HomeScreen";
 import EditScreen from "./EditScreen";
 
@@ -24,6 +27,7 @@ interface RouterProps {
 const HomeScreenView: React.FC<RouterProps> = (props) => {
     const insets = useSafeArea();
     const { navigation } = props;
+    const [isShowMenu, setShowMenu] = useState(false);
 
     return (
         <Container style={{ paddingTop: insets.top }} >
@@ -32,13 +36,22 @@ const HomeScreenView: React.FC<RouterProps> = (props) => {
                 <Body>
                     <Title>Task List</Title>
                 </Body>
-                <Right />
+                <Right>
+                    <Button transparent>
+                        <Icon
+                            type="MaterialCommunityIcons" name="sort-variant"
+                            onPress={() => setShowMenu(!isShowMenu)}
+                        />
+                    </Button>
+                </Right>
             </Header>
-            <Content padder contentContainerStyle={{ flexGrow: 1 }}>
-                <HomeScreen
-                    onCallEditor={() => navigation.navigate(Route.Edit)}
-                />
-            </Content>
+            <HomeScreen
+                onCallEditor={() => navigation.navigate(Route.Edit)}
+            />
+            <SortMenu
+                isVisible={isShowMenu}
+                onClose={() => setShowMenu(false)}
+            />
         </Container>
     );
 }
@@ -63,11 +76,9 @@ const EditScreenView: React.FC<RouterProps> = (props) => {
                     </Button>
                 </Right>
             </Header>
-            <Content padder contentContainerStyle={{ flexGrow: 1 }}>
-                <EditScreen
-                    onFinished={() => navigation.goBack()}
-                />
-            </Content>
+            <EditScreen
+                onFinished={() => navigation.goBack()}
+            />
         </Container >
     );
 }

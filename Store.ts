@@ -19,6 +19,7 @@ interface Actions {
     add(description: string): void
     update(id: string, done: boolean): void
     remove(id: string): void
+    sort(cmp: (a: Todo, b: Todo) => number): void
 }
 
 export type Store = Getters & Actions;
@@ -46,10 +47,17 @@ export const useTodo = (): Getters & Actions => {
         });
     }
 
+    function sort(cmp: (a: Todo, b: Todo) => number) {
+        setState({
+            todos: [...todos.sort(cmp)]
+        });
+    }
+
     return {
         todos,
         add,
         update,
         remove,
+        sort,
     };
 };
