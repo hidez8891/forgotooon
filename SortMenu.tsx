@@ -6,52 +6,29 @@ import {
 } from "native-base";
 import Modal from "react-native-modal";
 import { useContext } from './Context';
-import { Todo } from './Store';
+import { SortOptionT } from './Store';
 
 interface Props {
     isVisible: boolean
     onClose(): void
 };
 
-type SortItemT =
-    "registration" |
-    "title";
-const SortItems: SortItemT[] = [
-    "registration",
-    "title"
-];
+const SortItems: { [key: string]: SortOptionT["item"]; } = {
+    "registration": "id",
+    "title": "description",
+}
 
 const SortMenu: React.FC<Props> = (props) => {
     const { isVisible, onClose } = props;
-    const { todo: { sort } } = useContext();
-    const [sortItem, setSortItem] = useState<SortItemT>("registration");
-    const [isSortASC, setSortASC] = useState<boolean>(true);
+    const { todo: { sortOpts, setSortOpts } } = useContext();
+
+    const initSortItem = Object.keys(SortItems).filter((k) => SortItems[k] === sortOpts.item)[0];
+    const [sortItem, setSortItem] = useState(initSortItem);
+    const [isSortASC, setSortASC] = useState(sortOpts.order === "Ascending");
 
     function onFinish() {
-        let fn: (a: Todo, b: Todo) => number;
-
-        switch (sortItem) {
-            case "registration":
-                fn = (a, b) => {
-                    return a.id > b.id ? 1 : -1;
-                }
-                break;
-            case "title":
-                fn = (a, b) => {
-                    return a.description > b.description ? 1 : -1;
-                }
-                break;
-            default:
-                fn = (a, b) => 0;
-                break;
-        }
-
-        if (isSortASC) {
-            sort(fn);
-        } else {
-            sort((a, b) => -fn(a, b));
-        }
-
+        const sortOrder: SortOptionT["order"] = (isSortASC) ? "Ascending" : "Descending";
+        setSortOpts({ order: sortOrder, item: SortItems[sortItem] });
         onClose();
     }
 
@@ -77,7 +54,7 @@ const SortMenu: React.FC<Props> = (props) => {
                     <Separator bordered>
                         <Text>Sort Item</Text>
                     </Separator>
-                    {SortItems.map((item) =>
+                    {Object.keys(SortItems).map((item) =>
                         <ListItem key={item}>
                             <Left>
                                 <Text>{item}</Text>
