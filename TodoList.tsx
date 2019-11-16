@@ -1,17 +1,19 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
-import { Text, ListItem, Left, Icon, Body, Right } from "native-base";
+import { Text, ListItem, Left, Icon, Body, Right } from 'native-base';
 import { useContext } from './Context';
 
 const TodoList: React.FC = () => {
-    const { todo: { todos, update, remove } } = useContext();
+    const {
+        todo: { todos, update, remove }
+    } = useContext();
 
     return (
         <FlatList
             data={todos}
             contentContainerStyle={styles.listView}
             keyExtractor={item => item.id.toString()}
-            renderItem={({ item, index }) =>
+            renderItem={({ item, index }) => (
                 <ListItem icon>
                     <Left>
                         <Icon
@@ -19,7 +21,11 @@ const TodoList: React.FC = () => {
                             data-test-v={item.done}
                             type="MaterialIcons"
                             style={styles.checkbox}
-                            name={item.done ? "check-box" : "check-box-outline-blank"}
+                            name={
+                                item.done
+                                    ? 'check-box'
+                                    : 'check-box-outline-blank'
+                            }
                             onPress={() => update(item.id, !item.done)}
                         />
                     </Left>
@@ -38,20 +44,19 @@ const TodoList: React.FC = () => {
                         />
                     </Right>
                 </ListItem>
-            }
+            )}
         />
     );
 };
 
 const styles = StyleSheet.create({
-    listView: {
-    },
+    listView: {},
     icon: {
-        color: 'grey',
+        color: 'grey'
     },
     checkbox: {
         color: 'grey',
-        fontSize: 20,
+        fontSize: 20
     }
 });
 

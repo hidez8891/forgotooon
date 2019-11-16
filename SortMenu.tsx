@@ -1,43 +1,53 @@
 import React, { useState } from 'react';
 import {
-    Left, Right, Body,
-    Button, Text, Icon,
-    ListItem, View, Picker, Switch, Separator, Radio
-} from "native-base";
-import Modal from "react-native-modal";
+    Left,
+    Right,
+    Button,
+    Text,
+    ListItem,
+    View,
+    Switch,
+    Separator,
+    Radio
+} from 'native-base';
+import Modal from 'react-native-modal';
 import { useContext } from './Context';
 import { SortOptionT } from './Store';
 
 interface Props {
-    isVisible: boolean
-    onClose(): void
-};
-
-const SortItems: { [key: string]: SortOptionT["item"]; } = {
-    "registration": "id",
-    "title": "description",
+    isVisible: boolean;
+    onClose(): void;
 }
 
-const SortMenu: React.FC<Props> = (props) => {
-    const { isVisible, onClose } = props;
-    const { todo: { sortOpts, setSortOpts } } = useContext();
+const SortItems: { [key: string]: SortOptionT['item'] } = {
+    registration: 'id',
+    title: 'description'
+};
 
-    const initSortItem = Object.keys(SortItems).filter((k) => SortItems[k] === sortOpts.item)[0];
+const SortMenu: React.FC<Props> = props => {
+    const { isVisible, onClose } = props;
+    const {
+        todo: { sortOpts, setSortOpts }
+    } = useContext();
+
+    const initSortItem = Object.keys(SortItems).filter(
+        k => SortItems[k] === sortOpts.item
+    )[0];
     const [sortItem, setSortItem] = useState(initSortItem);
-    const [isSortASC, setSortASC] = useState(sortOpts.order === "Ascending");
+    const [isSortASC, setSortASC] = useState(sortOpts.order === 'Ascending');
 
     function onFinish() {
-        const sortOrder: SortOptionT["order"] = (isSortASC) ? "Ascending" : "Descending";
+        const sortOrder: SortOptionT['order'] = isSortASC
+            ? 'Ascending'
+            : 'Descending';
         setSortOpts({ order: sortOrder, item: SortItems[sortItem] });
         onClose();
     }
 
     return (
         <View>
-            <Modal
-                isVisible={isVisible}
-                onBackdropPress={onFinish}>
-                <View style={{ flexShrink: 1, backgroundColor: "#fff" }}>
+            <Modal isVisible={isVisible} onBackdropPress={onFinish}>
+                <View style={{ flexShrink: 1, backgroundColor: '#fff' }}>
                     <Separator bordered>
                         <Text>Sort Order</Text>
                     </Separator>
@@ -48,13 +58,14 @@ const SortMenu: React.FC<Props> = (props) => {
                         <Right>
                             <Switch
                                 value={isSortASC}
-                                onValueChange={(b) => setSortASC(b)} />
+                                onValueChange={b => setSortASC(b)}
+                            />
                         </Right>
                     </ListItem>
                     <Separator bordered>
                         <Text>Sort Item</Text>
                     </Separator>
-                    {Object.keys(SortItems).map((item) =>
+                    {Object.keys(SortItems).map(item => (
                         <ListItem key={item}>
                             <Left>
                                 <Text>{item}</Text>
@@ -62,10 +73,11 @@ const SortMenu: React.FC<Props> = (props) => {
                             <Right>
                                 <Radio
                                     selected={item === sortItem}
-                                    onPressIn={() => setSortItem(item)} />
+                                    onPressIn={() => setSortItem(item)}
+                                />
                             </Right>
                         </ListItem>
-                    )}
+                    ))}
                     <Button onPress={onFinish}>
                         <Text>Close</Text>
                     </Button>

@@ -1,20 +1,22 @@
-import React, { useState } from "react";
-import { StyleSheet } from "react-native";
-import { Form, Item, Input, Button, Text } from "native-base";
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { Form, Item, Input, Button, Text } from 'native-base';
 import { useContext } from './Context';
 
 interface Props {
-    onFinished(): void
+    onFinished(): void;
 }
 
 interface State {
-    text: string
+    text: string;
 }
 
-const EditScreen: React.FC<Props> = (props) => {
+const EditScreen: React.FC<Props> = props => {
     const { onFinished } = props;
-    const [state, setState] = useState<State>({ text: "" });
-    const { todo: { add } } = useContext();
+    const [state, setState] = useState<State>({ text: '' });
+    const {
+        todo: { add }
+    } = useContext();
 
     function onSubmit(text: string) {
         add(text);
@@ -27,7 +29,7 @@ const EditScreen: React.FC<Props> = (props) => {
                 <Input
                     data-test="input.text"
                     placeholder="task name"
-                    onChangeText={(text) => setState({ ...state, text })}
+                    onChangeText={text => setState({ ...state, text })}
                     value={state.text}
                     underlineColorAndroid="transparent"
                 />
@@ -42,13 +44,13 @@ const EditScreen: React.FC<Props> = (props) => {
             </Button>
         </Form>
     );
-}
+};
 
 export default EditScreen;
 
 const styles = StyleSheet.create({
     button: {
         alignSelf: 'center',
-        marginTop: 20,
-    },
+        marginTop: 20
+    }
 });

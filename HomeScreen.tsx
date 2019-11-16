@@ -1,13 +1,13 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import TodoList from "./TodoList";
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import TodoList from './TodoList';
 
 interface Props {
-    onCallEditor(): void
+    onCallEditor(): void;
 }
 
-const HomeScreen: React.FC<Props> = (props) => {
+const HomeScreen: React.FC<Props> = props => {
     const { onCallEditor } = props;
 
     return (
@@ -25,28 +25,28 @@ const HomeScreen: React.FC<Props> = (props) => {
             </View>
         </View>
     );
-}
+};
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
     },
     view: {
-        position: "absolute",
+        position: 'absolute',
         right: 24,
-        bottom: 24,
+        bottom: 24
     },
     button: {
         height: 48,
         width: 48,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#ccc",
-        borderRadius: 24,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ccc',
+        borderRadius: 24
     },
     text: {
-        fontSize: 24,
-    },
+        fontSize: 24
+    }
 });
