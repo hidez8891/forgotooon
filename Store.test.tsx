@@ -2,6 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { useTodo, Todo } from './Store';
 import { Button, View } from 'react-native';
+import { Repositry } from './Repository';
 
 const WrapItem: React.FC<{ item: Todo }> = props => {
     const { item } = props;
@@ -14,8 +15,21 @@ const WrapItem: React.FC<{ item: Todo }> = props => {
     );
 };
 
+function useDiscardRepositry(): Repositry {
+    async function load<T>(params: { key: string }): Promise<T> {
+        throw 'no value';
+    }
+    async function save(params: { key: string; data: any }): Promise<void> {
+        return;
+    }
+    return { load, save };
+}
+
 const Wrapper: React.FC = () => {
-    const { todos, add, update, remove, setSortOpts } = useTodo();
+    const { todos, add, update, remove, setSortOpts } = useTodo(
+        useDiscardRepositry()
+    );
+
     return (
         <>
             {todos.map(todo => (

@@ -4,11 +4,12 @@ import SortMenu from './SortMenu';
 
 let mockSetFn = jest.fn();
 jest.mock('./Context', () => {
+    const sortOpts = { item: 'id', order: 'Ascending' };
     return {
         useContext: () => {
             return {
                 todo: {
-                    sortOpts: { item: 'id', order: 'Ascending' },
+                    sortOpts: sortOpts,
                     setSortOpts: mockSetFn
                 }
             };
