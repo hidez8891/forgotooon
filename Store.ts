@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import uuid from 'uuid/v1';
+import { Repositry } from './Repository';
 
 export interface Todo {
     description: string;
@@ -36,7 +37,7 @@ interface Actions {
 
 export type Store = Getters & Actions;
 
-export const useTodo = (): Getters & Actions => {
+export const useTodo = (repo: Repositry): Getters & Actions => {
     const [state, setState] = useState<State>({
         todos: [],
         sortOpts: {
@@ -46,33 +47,46 @@ export const useTodo = (): Getters & Actions => {
     });
     const { todos, sortOpts } = state;
 
+    async function initialize() {
+        const repo_todos =
+            (await repo.load<Todo[]>({ key: 'todos' })) || state.todos;
+        const repo_opts =
+            (await repo.load<SortOptionT>({ key: 'sortOpts' })) ||
+            state.sortOpts;
+
+        setState({
+            todos: repo_todos,
+            sortOpts: repo_opts
+        });
+    }
+
+    useEffect(() => {
+        initialize();
+    }, []);
+
     function add(description: string) {
         const id = uuid();
-        setState({
-            ...state,
-            todos: [...todos, { id, description, done: false }]
-        });
+        const new_todos = [...todos, { id, description, done: false }];
+        setState({ ...state, todos: new_todos });
+        repo.save({ key: 'todos', data: new_todos });
     }
 
     function update(id: string, done: boolean) {
-        setState({
-            ...state,
-            todos: todos.map(v => (v.id !== id ? v : { ...v, done }))
-        });
+        const new_todos = todos.map(v => (v.id !== id ? v : { ...v, done }));
+        setState({ ...state, todos: new_todos });
+        repo.save({ key: 'todos', data: new_todos });
     }
 
     function remove(id: string) {
-        setState({
-            ...state,
-            todos: todos.filter(v => v.id !== id)
-        });
+        const new_todos = todos.filter(v => v.id !== id);
+        setState({ ...state, todos: new_todos });
+        repo.save({ key: 'todos', data: new_todos });
     }
 
     function setSortOpts(opts: Partial<SortOptionT>) {
-        setState({
-            ...state,
-            sortOpts: { ...sortOpts, ...opts }
-        });
+        const new_opts = { ...sortOpts, ...opts };
+        setState({ ...state, sortOpts: new_opts });
+        repo.save({ key: 'sortOpts', data: new_opts });
     }
 
     function _cmp(a: Todo, b: Todo): number {

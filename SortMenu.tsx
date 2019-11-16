@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Left,
     Right,
@@ -30,11 +30,17 @@ const SortMenu: React.FC<Props> = props => {
         todo: { sortOpts, setSortOpts }
     } = useContext();
 
-    const initSortItem = Object.keys(SortItems).filter(
-        k => SortItems[k] === sortOpts.item
-    )[0];
-    const [sortItem, setSortItem] = useState(initSortItem);
-    const [isSortASC, setSortASC] = useState(sortOpts.order === 'Ascending');
+    const [sortItem, setSortItem] = useState('');
+    const [isSortASC, setSortASC] = useState(true);
+
+    useEffect(() => {
+        const item = Object.keys(SortItems).filter(
+            k => SortItems[k] === sortOpts.item
+        )[0];
+
+        setSortItem(item);
+        setSortASC(sortOpts.order === 'Ascending');
+    }, [sortOpts]);
 
     function onFinish() {
         const sortOrder: SortOptionT['order'] = isSortASC
