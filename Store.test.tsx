@@ -7,6 +7,7 @@ const WrapItem: React.FC<{ item: Todo }> = props => {
     const { item } = props;
     return (
         <>
+            <View data-id="item-id">{item.id}</View>
             <View data-test="item-desc">{item.description}</View>
             <View data-flag={item.done ? 'done' : 'none'} />
         </>
@@ -14,7 +15,7 @@ const WrapItem: React.FC<{ item: Todo }> = props => {
 };
 
 const Wrapper: React.FC = () => {
-    const { todos, add, update, remove } = useTodo();
+    const { todos, add, update, remove, setSortOpts } = useTodo();
     return (
         <>
             {todos.map(todo => (
@@ -33,6 +34,16 @@ const Wrapper: React.FC = () => {
                 </View>
             ))}
             <Button onPress={() => add('test')} title="" data-test="add-btn" />
+            <Button
+                onPress={() => setSortOpts({ order: 'Ascending' })}
+                title=""
+                data-test="sort-asc-btn"
+            />
+            <Button
+                onPress={() => setSortOpts({ order: 'Descending' })}
+                title=""
+                data-test="sort-desc-btn"
+            />
         </>
     );
 };
@@ -132,5 +143,58 @@ describe('Todo Store', () => {
             .findAllByProps({ 'data-flag': 'done' })
             .filter(v => v.type.toString() === 'View');
         expect(items.length).toBe(1);
+    });
+
+    it('can sort', () => {
+        const component = renderer.create(<Wrapper />);
+        for (let i = 0; i < 3; ++i) {
+            renderer.act(() => {
+                const button = component.root.findByProps({
+                    'data-test': 'add-btn'
+                });
+                button.props.onPress();
+            });
+        }
+
+        let items = component.root
+            .findAllByProps({ 'data-id': 'item-id' })
+            .filter(v => v.type.toString() === 'View')
+            .map(v => v.props.children as string);
+        let limit = items.length - 1;
+        expect(
+            items.every((_, i) => (i < limit ? items[i] <= items[i + 1] : true))
+        ).toBeTruthy();
+
+        renderer.act(() => {
+            const button = component.root.findAllByProps({
+                'data-test': 'sort-desc-btn'
+            })[0];
+            button.props.onPress();
+        });
+
+        items = component.root
+            .findAllByProps({ 'data-id': 'item-id' })
+            .filter(v => v.type.toString() === 'View')
+            .map(v => v.props.children as string);
+        limit = items.length - 1;
+        expect(
+            items.every((_, i) => (i < limit ? items[i] >= items[i + 1] : true))
+        ).toBeTruthy();
+
+        renderer.act(() => {
+            const button = component.root.findAllByProps({
+                'data-test': 'sort-asc-btn'
+            })[0];
+            button.props.onPress();
+        });
+
+        items = component.root
+            .findAllByProps({ 'data-id': 'item-id' })
+            .filter(v => v.type.toString() === 'View')
+            .map(v => v.props.children as string);
+        limit = items.length - 1;
+        expect(
+            items.every((_, i) => (i < limit ? items[i] <= items[i + 1] : true))
+        ).toBeTruthy();
     });
 });
