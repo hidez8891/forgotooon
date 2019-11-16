@@ -57,6 +57,7 @@ const SortMenu: React.FC<Props> = props => {
                         </Left>
                         <Right>
                             <Switch
+                                data-test="sort-menu.order"
                                 value={isSortASC}
                                 onValueChange={b => setSortASC(b)}
                             />
@@ -72,13 +73,15 @@ const SortMenu: React.FC<Props> = props => {
                             </Left>
                             <Right>
                                 <Radio
+                                    data-test="sort-menu.items"
+                                    data-testv={item}
                                     selected={item === sortItem}
                                     onPressIn={() => setSortItem(item)}
                                 />
                             </Right>
                         </ListItem>
                     ))}
-                    <Button onPress={onFinish}>
+                    <Button data-test="sort-menu.close-btn" onPress={onFinish}>
                         <Text>Close</Text>
                     </Button>
                 </View>
