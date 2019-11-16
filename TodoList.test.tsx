@@ -9,7 +9,9 @@ const Mock = (): Store => {
         todos: [],
         add: jest.fn(),
         update: jest.fn(),
-        remove: jest.fn()
+        remove: jest.fn(),
+        sortOpts: { item: 'id', order: 'Ascending' },
+        setSortOpts: jest.fn()
     };
 };
 
