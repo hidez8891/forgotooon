@@ -1,22 +1,24 @@
 {
-  "expo": {
-    "name": "forgotooon",
-    "sdkVersion": "27.0.0",
-    "packagerOpts": {
-      "sourceExts": ["ts", "tsx"],
-      "transformer": "node_modules/react-native-typescript-transformer/index.js"
-    },
-    "assetBundlePatterns": [
-      "assets/**",
-      "node_modules/react-navigation/src/**/*.png",
-      "node_modules/@expo/vector-icons/fonts/*.ttf"
-    ],
-    "ios": {
-      "bundleIdentifier": "com.github.hidez8891.forgotooon"
-    },
-    "android": {
-      "package": "com.github.hidez8891.forgotooon"
-    },
-    "icon": "./assets/icons/app-icon.png"
-  }
+    "expo": {
+        "name": "forgotooon",
+        "slug": "forgotooon",
+        "privacy": "public",
+        "sdkVersion": "35.0.0",
+        "platforms": ["ios", "android", "web"],
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": ["**/*"],
+        "ios": {
+            "supportsTablet": true
+        }
+    }
 }

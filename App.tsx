@@ -1,30 +1,36 @@
-import * as React from "react";
-import { NativeModules } from "react-native";
-import { getTheme, ThemeContext } from "react-native-material-ui";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
-import { memoReducer } from "./modules/memos";
-import Router from "./screens/Router";
-import { theme } from "./theme";
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator } from 'react-native';
+import * as Font from 'expo-font';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StoreProvider } from './Context';
+import ScreenRouter from './ScreenRouter';
 
-const store = createStore(memoReducer);
+export default function App() {
+    const [isReady, setReady] = useState<Boolean>(false);
 
-const UIManager = NativeModules.UIManager;
-
-export default class App extends React.Component {
-  componentWillMount() {
-    if (UIManager.setLayoutAnimationEnabledExperimental) {
-      UIManager.setLayoutAnimationEnabledExperimental(true);
+    async function NativeBaseInitialize() {
+        await Font.loadAsync({
+            Roboto: require('native-base/Fonts/Roboto.ttf'),
+            Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf')
+        });
+        setReady(true);
     }
-  }
 
-  render() {
+    useEffect(() => {
+        if (!isReady) {
+            NativeBaseInitialize();
+        }
+    }, []);
+
+    if (!isReady) {
+        return <ActivityIndicator />;
+    }
+
     return (
-      <ThemeContext.Provider value={getTheme(theme)}>
-        <Provider store={store}>
-          <Router />
-        </Provider>
-      </ThemeContext.Provider>
+        <SafeAreaProvider>
+            <StoreProvider>
+                <ScreenRouter />
+            </StoreProvider>
+        </SafeAreaProvider>
     );
-  }
 }
