@@ -8,7 +8,8 @@ export interface Repositry {
 
 export function useRepositry(): Repositry {
     const storage = new Storage({
-        storageBackend: AsyncStorage
+        storageBackend: AsyncStorage,
+        defaultExpires: null
     });
     return storage;
 }

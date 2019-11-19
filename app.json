@@ -2,23 +2,26 @@
     "expo": {
         "name": "forgotooon",
         "slug": "forgotooon",
-        "privacy": "public",
+        "privacy": "unlisted",
         "sdkVersion": "35.0.0",
-        "platforms": ["ios", "android", "web"],
-        "version": "1.0.0",
+        "platforms": ["ios", "android"],
         "orientation": "portrait",
         "icon": "./assets/icon.png",
         "splash": {
             "image": "./assets/splash.png",
             "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
+            "backgroundColor": "#58B45C"
         },
         "updates": {
-            "fallbackToCacheTimeout": 0
+            "enabled": false
         },
         "assetBundlePatterns": ["**/*"],
         "ios": {
-            "supportsTablet": true
-        }
+            "bundleIdentifier": "com.github.hidez8891.forgotooon"
+        },
+        "android": {
+            "package": "com.github.hidez8891.forgotooon"
+        },
+        "description": ""
     }
 }

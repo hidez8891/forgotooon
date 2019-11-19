@@ -48,11 +48,12 @@ export const useTodo = (repo: Repositry): Getters & Actions => {
     const { todos, sortOpts } = state;
 
     async function initialize() {
-        const repo_todos =
-            (await repo.load<Todo[]>({ key: 'todos' })) || state.todos;
-        const repo_opts =
-            (await repo.load<SortOptionT>({ key: 'sortOpts' })) ||
-            state.sortOpts;
+        const repo_todos = await repo
+            .load<Todo[]>({ key: 'todos' })
+            .catch(() => state.todos);
+        const repo_opts = await repo
+            .load<SortOptionT>({ key: 'sortOpts' })
+            .catch(() => state.sortOpts);
 
         setState({
             todos: repo_todos,
