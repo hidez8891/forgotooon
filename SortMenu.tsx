@@ -11,42 +11,42 @@ import {
     Radio
 } from 'native-base';
 import Modal from 'react-native-modal';
-import { useContext } from './Context';
-import { SortOptionT } from './Store';
+
+import { TaskSortOption } from './interfaces/models/task';
+import { TaskSorter } from './interfaces/usecase/task';
+import { useTaskContext } from './contexts/task';
 
 interface Props {
     isVisible: boolean;
     onClose(): void;
 }
 
-const SortItems: { [key: string]: SortOptionT['item'] } = {
+const SortItems: { [key: string]: TaskSortOption['item'] } = {
     registration: 'id',
-    title: 'description'
+    title: 'title'
 };
 
 const SortMenu: React.FC<Props> = props => {
     const { isVisible, onClose } = props;
-    const {
-        todo: { sortOpts, setSortOpts }
-    } = useContext();
+    const { options, sortUpdate }: TaskSorter = useTaskContext();
 
     const [sortItem, setSortItem] = useState('');
     const [isSortASC, setSortASC] = useState(true);
 
     useEffect(() => {
         const item = Object.keys(SortItems).filter(
-            k => SortItems[k] === sortOpts.item
+            k => SortItems[k] === options.item
         )[0];
 
         setSortItem(item);
-        setSortASC(sortOpts.order === 'Ascending');
-    }, [sortOpts]);
+        setSortASC(options.order === 'Ascending');
+    }, [options]);
 
     function onFinish() {
-        const sortOrder: SortOptionT['order'] = isSortASC
+        const sortOrder: TaskSortOption['order'] = isSortASC
             ? 'Ascending'
             : 'Descending';
-        setSortOpts({ order: sortOrder, item: SortItems[sortItem] });
+        sortUpdate({ order: sortOrder, item: SortItems[sortItem] });
         onClose();
     }
 

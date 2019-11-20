@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Animated, Easing, Dimensions } from 'react-native';
+import { Animated, Easing } from 'react-native';
 import {
     Container,
     Header,
