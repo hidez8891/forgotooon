@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import EditScreen from './EditScreen';
 
-import { TaskReader, TaskWriter } from './interfaces/usecase/task';
+import { TaskWriter } from './interfaces/usecase/task';
 
 let mockTaskWriter = jest.fn();
 jest.mock('./contexts/task', () => {
