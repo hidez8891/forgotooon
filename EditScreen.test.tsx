@@ -2,17 +2,23 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import EditScreen from './EditScreen';
 
-let mockAddFn = jest.fn();
-jest.mock('./Context', () => {
+import { TaskReader, TaskWriter } from './interfaces/usecase/task';
+
+let mockTaskWriter = jest.fn();
+jest.mock('./contexts/task', () => {
     return {
-        useContext: () => {
-            return { todo: { add: mockAddFn } };
+        useTaskContext: (): TaskWriter => {
+            return {
+                taskCreate: mockTaskWriter,
+                taskUpdate: null,
+                taskDelete: null
+            };
         }
     };
 });
 
 afterEach(() => {
-    mockAddFn.mockClear();
+    mockTaskWriter.mockClear();
 });
 
 describe('EditScreen', () => {
@@ -42,8 +48,8 @@ describe('EditScreen', () => {
         renderer.act(() => {
             button.props.onPress();
         });
-        expect(mockAddFn.mock.calls.length).toBe(1);
-        expect(mockAddFn.mock.calls[0][0]).toBe(text);
+        expect(mockTaskWriter.mock.calls.length).toBe(1);
+        expect(mockTaskWriter.mock.calls[0][0]).toBe(text);
     });
 
     it('can call onFinished', () => {

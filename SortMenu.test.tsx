@@ -1,24 +1,25 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import SortMenu from './SortMenu';
 
-let mockSetFn = jest.fn();
-jest.mock('./Context', () => {
-    const sortOpts = { item: 'id', order: 'Ascending' };
+import SortMenu from './SortMenu';
+import { TaskSortOption } from './interfaces/models/task';
+import { TaskSorter } from './interfaces/usecase/task';
+
+let mockSortUpdate = jest.fn();
+jest.mock('./contexts/task', () => {
+    const options: TaskSortOption = { item: 'id', order: 'Ascending' };
     return {
-        useContext: () => {
+        useTaskContext: (): TaskSorter => {
             return {
-                todo: {
-                    sortOpts: sortOpts,
-                    setSortOpts: mockSetFn
-                }
+                options: options,
+                sortUpdate: mockSortUpdate
             };
         }
     };
 });
 
 afterEach(() => {
-    mockSetFn.mockClear();
+    mockSortUpdate.mockClear();
 });
 
 describe('SortMenu', () => {
@@ -70,8 +71,8 @@ describe('SortMenu', () => {
             button.props.onPress();
         });
 
-        expect(mockSetFn.mock.calls.length).toBe(1);
-        expect(mockSetFn.mock.calls[0][0]).toEqual({
+        expect(mockSortUpdate.mock.calls.length).toBe(1);
+        expect(mockSortUpdate.mock.calls[0][0]).toEqual({
             item: 'id',
             order: 'Ascending'
         });
@@ -110,9 +111,9 @@ describe('SortMenu', () => {
             button.props.onPress();
         });
 
-        expect(mockSetFn.mock.calls.length).toBe(1);
-        expect(mockSetFn.mock.calls[0][0]).toEqual({
-            item: 'description',
+        expect(mockSortUpdate.mock.calls.length).toBe(1);
+        expect(mockSortUpdate.mock.calls[0][0]).toEqual({
+            item: 'title',
             order: 'Ascending'
         });
     });
@@ -139,8 +140,8 @@ describe('SortMenu', () => {
             button.props.onPress();
         });
 
-        expect(mockSetFn.mock.calls.length).toBe(1);
-        expect(mockSetFn.mock.calls[0][0]).toEqual({
+        expect(mockSortUpdate.mock.calls.length).toBe(1);
+        expect(mockSortUpdate.mock.calls[0][0]).toEqual({
             item: 'id',
             order: 'Descending'
         });
