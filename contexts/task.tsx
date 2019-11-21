@@ -6,11 +6,9 @@ import * as Model from '../interfaces/models/task';
 import * as UseCase from '../interfaces/usecase/task';
 import { Storage } from '../interfaces/repository/storage';
 
-type TaskContextType = UseCase.TaskReader &
-    UseCase.TaskWriter &
-    UseCase.TaskSorter;
-
-const useTask = (repo: Storage): TaskContextType => {
+const useUsecaseTaskAccessor = (
+    repo: Storage
+): UseCase.TaskReader & UseCase.TaskWriter & UseCase.TaskSorter => {
     const defaultValue: {
         tasks: Array<Model.Task>;
         options: Model.TaskSortOption;
@@ -124,7 +122,9 @@ const useTask = (repo: Storage): TaskContextType => {
     };
 };
 
-const Context = React.createContext<{ tasks: TaskContextType }>({} as any);
+const Context = React.createContext<{
+    tasks: ReturnType<typeof useUsecaseTaskAccessor>;
+}>({} as any);
 const { Provider } = Context;
 
 interface ProviderProps {
@@ -133,11 +133,11 @@ interface ProviderProps {
 
 export const TaskContextProvider: React.FC<ProviderProps> = props => {
     const { repositry, children } = props;
-    const tasks = useTask(repositry);
+    const tasks = useUsecaseTaskAccessor(repositry);
     return <Provider value={{ tasks }}>{children}</Provider>;
 };
 
-export const useTaskContext = (): TaskContextType => {
+export const useTaskContext = (): ReturnType<typeof useUsecaseTaskAccessor> => {
     const { tasks } = React.useContext(Context);
     return tasks;
 };
