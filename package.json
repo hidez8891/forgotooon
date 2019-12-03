@@ -40,5 +40,9 @@
     "eslintConfig": {
         "extends": "universe/native"
     },
+    "resolutions": {
+        "**/metro-config": "^0.57.0",
+        "**/@react-native-community/cli": "^3.0.4"
+    },
     "private": true
 }

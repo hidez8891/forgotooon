@@ -1,2 +1,0 @@
-Q. error Invalid regular expression: /(.*\\__fixtures__\\.*|node_modules[\\\]react[\\\]dist[\\\].*|website\\node_modules\\.*|heapCapture\\bundle\.js|.*\\__tests__\\.*)$/: Unterminated character class.
-A. https://stackoverflow.com/questions/58120990/question-getting-error-on-react-native-start
