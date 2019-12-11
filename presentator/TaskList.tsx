@@ -5,7 +5,7 @@ import { Text, ListItem, Left, Icon, Body, Right } from 'native-base';
 import { TaskReader, TaskWriter } from '../interfaces/usecase/task';
 import { useTaskContext } from '../contexts/task';
 
-const TodoList: React.FC = () => {
+const TaskList: React.FC = () => {
     const {
         tasks,
         taskUpdate,
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TodoList;
+export default TaskList;

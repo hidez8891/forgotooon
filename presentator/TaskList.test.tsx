@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { ListItem } from 'native-base';
 
-import TodoList from './TodoList';
+import TaskList from './TaskList';
 import { Task } from '../interfaces/models/task';
 import { TaskReader, TaskWriter } from '../interfaces/usecase/task';
 
@@ -28,9 +28,9 @@ afterEach(() => {
     mockTaskDelete.mockClear();
 });
 
-describe('TodoList', () => {
+describe('TaskList', () => {
     it('can show empty list', () => {
-        const component = renderer.create(<TodoList />);
+        const component = renderer.create(<TaskList />);
         const items = component.root.findAllByType(ListItem);
         expect(items.length).toBe(0);
     });
@@ -43,7 +43,7 @@ describe('TodoList', () => {
         ];
         mockTasks = tests;
 
-        const component = renderer.create(<TodoList />);
+        const component = renderer.create(<TaskList />);
         const items = component.root.findAllByType(ListItem);
         expect(items.length).toBe(tests.length);
 
@@ -65,7 +65,7 @@ describe('TodoList', () => {
         ];
         mockTasks = tests;
 
-        const component = renderer.create(<TodoList />);
+        const component = renderer.create(<TaskList />);
         const items = component.root.findAllByType(ListItem);
         tests.forEach((v, i) => {
             const btn = items[i].findByProps({ 'data-test': 'item.check' });
@@ -85,7 +85,7 @@ describe('TodoList', () => {
         ];
         mockTasks = tests;
 
-        const component = renderer.create(<TodoList />);
+        const component = renderer.create(<TaskList />);
         const items = component.root.findAllByType(ListItem);
         tests.forEach((v, i) => {
             const btn = items[i].findByProps({ 'data-test': 'item.delete' });
