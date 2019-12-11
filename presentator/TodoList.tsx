@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 import { Text, ListItem, Left, Icon, Body, Right } from 'native-base';
 
-import { TaskReader, TaskWriter } from './interfaces/usecase/task';
-import { useTaskContext } from './contexts/task';
+import { TaskReader, TaskWriter } from '../interfaces/usecase/task';
+import { useTaskContext } from '../contexts/task';
 
 const TodoList: React.FC = () => {
     const {

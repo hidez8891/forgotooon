@@ -18,9 +18,9 @@ import {
     NavigationStackProp
 } from 'react-navigation-stack';
 
-import SortMenu from './SortMenu';
-import HomeScreen from './HomeScreen';
-import EditScreen from './EditScreen';
+import SortMenu from './presentator/SortMenu';
+import HomeScreen from './presentator/HomeScreen';
+import EditScreen from './presentator/EditScreen';
 
 enum Route {
     Home = 'Home',

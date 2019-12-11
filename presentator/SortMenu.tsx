@@ -12,9 +12,9 @@ import {
 } from 'native-base';
 import Modal from 'react-native-modal';
 
-import { TaskSortOption } from './interfaces/models/task';
-import { TaskSorter } from './interfaces/usecase/task';
-import { useTaskContext } from './contexts/task';
+import { TaskSortOption } from '../interfaces/models/task';
+import { TaskSorter } from '../interfaces/usecase/task';
+import { useTaskContext } from '../contexts/task';
 
 interface Props {
     isVisible: boolean;

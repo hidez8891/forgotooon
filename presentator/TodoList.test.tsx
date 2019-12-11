@@ -3,8 +3,8 @@ import renderer from 'react-test-renderer';
 import { ListItem } from 'native-base';
 
 import TodoList from './TodoList';
-import { Task } from './interfaces/models/task';
-import { TaskReader, TaskWriter } from './interfaces/usecase/task';
+import { Task } from '../interfaces/models/task';
+import { TaskReader, TaskWriter } from '../interfaces/usecase/task';
 
 let mockTasks: Array<Task> = [];
 let mockTaskUpdate = jest.fn();

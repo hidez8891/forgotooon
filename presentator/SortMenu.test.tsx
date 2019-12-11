@@ -2,8 +2,8 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 
 import SortMenu from './SortMenu';
-import { TaskSortOption } from './interfaces/models/task';
-import { TaskSorter } from './interfaces/usecase/task';
+import { TaskSortOption } from '../interfaces/models/task';
+import { TaskSorter } from '../interfaces/usecase/task';
 
 let mockSortUpdate = jest.fn();
 jest.mock('./contexts/task', () => {

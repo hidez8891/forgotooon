@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Form, Item, Input, Button, Text } from 'native-base';
 
-import { TaskWriter } from './interfaces/usecase/task';
-import { useTaskContext } from './contexts/task';
+import { TaskWriter } from '../interfaces/usecase/task';
+import { useTaskContext } from '../contexts/task';
 
 interface Props {
     onFinished(): void;
