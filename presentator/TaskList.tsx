@@ -1,16 +1,20 @@
 import React from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 import { Text, ListItem, Left, Icon, Body, Right } from 'native-base';
-import { useContext } from './Context';
 
-const TodoList: React.FC = () => {
+import { TaskReader, TaskWriter } from '../interfaces/usecase/task';
+import { useTaskContext } from '../contexts/task';
+
+const TaskList: React.FC = () => {
     const {
-        todo: { todos, update, remove }
-    } = useContext();
+        tasks,
+        taskUpdate,
+        taskDelete
+    }: TaskReader & TaskWriter = useTaskContext();
 
     return (
         <FlatList
-            data={todos}
+            data={tasks}
             contentContainerStyle={styles.listView}
             keyExtractor={item => item.id.toString()}
             renderItem={({ item, index }) => (
@@ -26,21 +30,19 @@ const TodoList: React.FC = () => {
                                     ? 'check-box'
                                     : 'check-box-outline-blank'
                             }
-                            onPress={() => update(item.id, !item.done)}
+                            onPress={() => taskUpdate(item.id, !item.done)}
                         />
                     </Left>
                     <Body>
-                        <Text data-test="item.description">
-                            {item.description}
-                        </Text>
+                        <Text data-test="item.title">{item.title}</Text>
                     </Body>
                     <Right>
                         <Icon
-                            data-test="item.remove"
+                            data-test="item.delete"
                             type="FontAwesome"
                             style={styles.icon}
                             name="trash-o"
-                            onPress={() => remove(item.id)}
+                            onPress={() => taskDelete(item.id)}
                         />
                     </Right>
                 </ListItem>
@@ -60,4 +62,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TodoList;
+export default TaskList;

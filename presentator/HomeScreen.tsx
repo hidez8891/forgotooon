@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import TodoList from './TodoList';
+import TaskList from './TaskList';
 
 interface Props {
     onCallEditor(): void;
@@ -12,7 +12,7 @@ const HomeScreen: React.FC<Props> = props => {
 
     return (
         <View style={styles.container}>
-            <TodoList />
+            <TaskList />
 
             <View style={styles.view}>
                 <TouchableOpacity

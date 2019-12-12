@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Form, Item, Input, Button, Text } from 'native-base';
-import { useContext } from './Context';
+
+import { TaskWriter } from '../interfaces/usecase/task';
+import { useTaskContext } from '../contexts/task';
 
 interface Props {
     onFinished(): void;
@@ -14,12 +16,10 @@ interface State {
 const EditScreen: React.FC<Props> = props => {
     const { onFinished } = props;
     const [state, setState] = useState<State>({ text: '' });
-    const {
-        todo: { add }
-    } = useContext();
+    const { taskCreate }: TaskWriter = useTaskContext();
 
     function onSubmit(text: string) {
-        add(text);
+        taskCreate(text);
         onFinished();
     }
 
