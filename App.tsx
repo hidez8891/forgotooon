@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import * as Font from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import ScreenRouter from './ScreenRouter';
+import ScreenRouter from './router/RootScreen';
 
 import { TaskContextProvider } from './contexts/task';
 import { useRepositry } from './repository/asyncstorage';
