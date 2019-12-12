@@ -5,7 +5,7 @@ import EditScreen from './EditScreen';
 import { TaskWriter } from '../interfaces/usecase/task';
 
 let mockTaskWriter = jest.fn();
-jest.mock('./contexts/task', () => {
+jest.mock('../contexts/task', () => {
     return {
         useTaskContext: (): TaskWriter => {
             return {

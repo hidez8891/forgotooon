@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import HomeScreen from './HomeScreen';
 
-jest.mock('./TodoList', () => () => {
+jest.mock('./TaskList', () => () => {
     const { View } = require('react-native');
     return <View data-test="mock-todo-list" />;
 });

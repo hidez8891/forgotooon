@@ -9,7 +9,7 @@ import { TaskReader, TaskWriter } from '../interfaces/usecase/task';
 let mockTasks: Array<Task> = [];
 let mockTaskUpdate = jest.fn();
 let mockTaskDelete = jest.fn();
-jest.mock('./contexts/task', () => {
+jest.mock('../contexts/task', () => {
     return {
         useTaskContext: (): TaskReader & TaskWriter => {
             return {

@@ -6,7 +6,7 @@ import { TaskSortOption } from '../interfaces/models/task';
 import { TaskSorter } from '../interfaces/usecase/task';
 
 let mockSortUpdate = jest.fn();
-jest.mock('./contexts/task', () => {
+jest.mock('../contexts/task', () => {
     const options: TaskSortOption = { item: 'id', order: 'Ascending' };
     return {
         useTaskContext: (): TaskSorter => {
